@@ -9,6 +9,8 @@ export type CreateUser = {
   lastName?: string;
 };
 
+const JWT_SECRET = "daaku";
+
 class UserService {
   // * helper methods
   private static getHash(input: string, salt: string) {
@@ -22,6 +24,11 @@ class UserService {
         email,
       },
     });
+  }
+
+  public static decodeJWTToken(token: string) {
+    const decoded = JWT.verify(token, JWT_SECRET);
+    return decoded;
   }
 
   //   * Service methods
@@ -54,8 +61,6 @@ class UserService {
     if (hashedPass !== user.password) {
       throw new Error("Invalid password");
     }
-
-    const JWT_SECRET = "loda";
 
     // create a token
     const token = JWT.sign(

@@ -6,6 +6,14 @@ const queries = {
 
     return await UserService.Login(args);
   },
+
+  GetLoggedInUser: async (_: any, args: any, context: any) => {
+    console.log(context, "context");
+    if (context && context.user) {
+      return context.user;
+    }
+    return null;
+  },
 };
 
 const mutations = {
