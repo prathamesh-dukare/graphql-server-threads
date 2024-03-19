@@ -1,19 +1,16 @@
-import prismaClient from "../../lib/db";
-import { UserCreateInput } from "./typedef";
+import UserService, { CreateUser } from "../../services/user";
 
-const queries = {};
+const queries = {
+  loginUser: async (_: any, args: { email: string; password: string }) => {
+    console.log(args, "args");
+
+    return await UserService.Login(args);
+  },
+};
+
 const mutations = {
-  createUser: async (_: any, args: UserCreateInput) => {
-    const { email, password, firstName } = args;
-    let newUser = await prismaClient.user.create({
-      data: {
-        email: email,
-        password: password,
-        firstName: firstName,
-        salt: "salt",
-      },
-    });
-
+  createUser: async (_: any, args: CreateUser) => {
+    let newUser = await UserService.CreateUser(args);
     return newUser.id;
   },
 };
