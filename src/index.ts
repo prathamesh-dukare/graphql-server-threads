@@ -10,10 +10,17 @@ async function init() {
   const apolloServer = new ApolloServer({
     typeDefs: `
       type Query {
-        hello: String
+        hello: String,
+        greet(nam:String): String
       }
     `,
-    resolvers: {},
+    resolvers: {
+      Query: {
+        hello: () => "Hello World",
+        greet: (_, { nam }: { nam: String }) =>
+          `Hello from the greet query ${nam}`,
+      },
+    },
     // context: ({ req, res }) => ({ req, res }),
   });
 
